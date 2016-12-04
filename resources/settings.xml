@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+	<category label="1000">
+        <setting type="lsep" label="1001" />
+	    <setting type="sep" />
+		<setting label="1002" type="action" action="RunScript($CWD/default.py, picons)" default="" /> 
+	</category>
+</settings>

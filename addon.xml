@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon
+    id="script.tnds.tvhpicons"
+    name="Download Picons to Tvheadend by Tnds"
+    version="1.0.0"
+    provider-name="tnds82"
+    >
+  <requires>
+	<import addon="os.libreelec.tv"              version="7.0"/>
+    <import addon="xbmc.python"                  version="2.1.0" />
+  </requires>
+  <extension point="xbmc.python.pluginsource"    library="default.py">
+    <provides>executable</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+	<summary lang="en">Download Picons to TvHeadend</summary>
+    <description lang="en">Addon Description: Use this addon to download Picons to TvHeadend 4.2</description>
+    <disclaimer lang="en">For bugs or suggestions send email: tndsrepo@gmail.com</disclaimer>
+    <platform>all</platform>
+  </extension>
+</addon>
