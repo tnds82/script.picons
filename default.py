@@ -4,7 +4,7 @@
 # email: tndsrepo@gmail.com
 # This program is free software: GNU General Public License
 ##############BIBLIOTECAS A IMPORTAR E DEFINICOES####################
-import urllib, urllib2, os, xbmc, xbmcgui, xbmcaddon, zipfile, shutil
+import urllib, urllib2, os, xbmc, xbmcgui, xbmcaddon, subprocess, shutil, time
 
 addon          = xbmcaddon.Addon(id='script.tnds.tvhpicons')
 addonname      = addon.getAddonInfo('name')
@@ -12,6 +12,9 @@ addonfolder    = addon.getAddonInfo('path')
 tempfile	   = os.path.join('/storage/.kodi/tnds82')
 
 dp = xbmcgui.DialogProgress()
+
+def bash_command(cmd):
+	subprocess.Popen(cmd, shell=True, executable='/bin/bash')
 
 def downloader(url,dest, header):
     
@@ -32,29 +35,25 @@ def _pbhook(numblocks, blocksize, filesize, url=None,dp=None):
         d.notification(addonname, "Download was canceled", xbmcgui.NOTIFICATION_INFO, 1000)
         dp.close()
 
-def extract(_in, _out, dp, header):
-    dp.create(header,"Extracting","Please Wait...")
-
-    zin = zipfile.ZipFile(_in,  'r')
-
-    nFiles = float(len(zin.infolist()))
-    count  = 0
-
-    try:
-        for item in zin.infolist():
-            count += 1
-            update = count / nFiles * 100
-            dp.update(int(update))
-            zin.extract(item, _out)
-    except Exception, e:
-        print str(e)
-        return False
-
-    return True
+def extract(dp, header):
+	dp.create(header,"Extracting","Please Wait...")
+	time.sleep( 2 )	
+	bash_command('unxz /storage/.kodi/tnds82/picons.tar.xz')
+	dp.update(25)
+	time.sleep( 2 )	
+	dp.update(50)
+	time.sleep( 2 )	
+	bash_command('tar -xvf /storage/.kodi/tnds82/picons.tar picons -C /storage/picons/')
+	dp.update(75)
+	time.sleep( 2 )
+	bash_command('mv /storage/picons/picons/ /storage/picons/tvh/')
+	dp.update(100)
+	dp.close()
+	
 
 def picons(url):
-	piconsDir = os.path.join('/storage/picons/tvh')
-	packageFile = os.path.join('/storage/.kodi/tnds82', 'picons.zip')
+	piconsDir = os.path.join('/storage/picons/')
+	packageFile = os.path.join('/storage/.kodi/tnds82', 'picons.tar.xz')
 	header = 'Picons for Tvheadend'
 	dp = xbmcgui.DialogProgress()
 	if not os.path.exists(piconsDir):
@@ -62,13 +61,13 @@ def picons(url):
 	if not os.path.exists(tempfile):
 		os.makedirs(tempfile)
 	downloader(url,packageFile,header)
-	extract(packageFile,piconsDir,dp,header)
+	extract(dp, header)
 	shutil.rmtree(tempfile)
 
 
 def url_picons():
-		url = "http://tnds82.xyz/tvhwizard/picons/dvbs/hispasat.zip"
-		picons(url)
+	url = "http://www.mycvh.de/libreelec/picons/picons.tar.xz"
+	picons(url)
 
 try:
 	args = ' '.join(sys.argv[1:])
