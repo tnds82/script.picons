@@ -3,78 +3,77 @@
 # by Tnds82
 # email: tndsrepo@gmail.com
 # This program is free software: GNU General Public License
-##############BIBLIOTECAS A IMPORTAR E DEFINICOES####################
-import urllib, urllib2, os, xbmc, xbmcgui, xbmcaddon, subprocess, shutil, time
+##############################################################
+import os, xbmc, xbmcaddon, xbmcgui
+import tools
 
-addon          = xbmcaddon.Addon(id='script.tnds.tvhpicons')
-addonname      = addon.getAddonInfo('name')
-addonfolder    = addon.getAddonInfo('path')
-tempfile	   = os.path.join('/storage/.kodi/tnds82')
+addon       = xbmcaddon.Addon(id='script.picons')
+addonname   = addon.getAddonInfo('name')
+addonfolder = addon.getAddonInfo('path')
+addonicon   = os.path.join(addonfolder, 'icon.png')
+addondata   = xbmc.translatePath(addon.getAddonInfo('profile'))
+log3rdparty = os.path.join(addondata, 'log/3rdparty.log')
+logsrp      = os.path.join(addondata, 'log/srp.log')
+logsnp      = os.path.join(addondata, 'log/snp.log')
+exturl      = addon.getSetting('exturl')
+dialog = xbmcgui.Dialog()
 
-dp = xbmcgui.DialogProgress()
+def url_snp():	
+	url = "http://mycvh.de/libreelec/picons/picons-snp.tar.zst"
+	tools.picons_snp(url)
+	xbmc.executebuiltin('Notification(%s, %s, %d, %s)'%(addonname, '"Download the picons is finish"', 5000, addonicon))
 
-def bash_command(cmd):
-	subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+def url_srp():	
+	url = "http://mycvh.de/libreelec/picons/picons-srp.tar.zst"
+	tools.picons_srp(url)
+	xbmc.executebuiltin('Notification(%s, %s, %d, %s)'%(addonname, '"Download the picons is finish"', 5000, addonicon))
 
-def downloader(url,dest, header):
-    
-    dp.create(header,"Downloading","Please Wait...")
-    urllib.urlretrieve(url,dest,lambda nb, bs, fs, url=url: _pbhook(nb,bs,fs,url,dp))
- 
-def _pbhook(numblocks, blocksize, filesize, url=None,dp=None):
-    try:
-        percent = min((numblocks*blocksize*100)/filesize, 100)
-        print percent
-        dp.update(percent)
-    except:
-        percent = 100
-        dp.update(percent)
-    if dp.iscanceled():
-        d = xbmcgui.Dialog()
-        print "DOWNLOAD CANCELLED" # need to get this part working
-        d.notification(addonname, "Download was canceled", xbmcgui.NOTIFICATION_INFO, 1000)
-        dp.close()
+def url_external():
+	if addon.getSetting('pathpicons') == '':
+		xbmcgui.Dialog().ok(addonname, "You need choose destination for picons", "", "")
+		xbmc.executebuiltin('Addon.OpenSettings(script.picons)')
+	elif addon.getSetting('exturl') == '':
+		xbmcgui.Dialog().ok(addonname, "You need choose the external url", "", "")
+		xbmc.executebuiltin('Addon.OpenSettings(script.picons)')
+	else:
+		tools.picons_ext(exturl)
+		xbmc.executebuiltin('Notification(%s, %s, %d, %s)'%(addonname, '"Download the picons is finish"', 5000, addonicon))
 
-def extract(dp, header):
-	dp.create(header,"Extracting","Please Wait...")
-	time.sleep( 2 )	
-	bash_command('unxz /storage/.kodi/tnds82/picons.tar.xz')
-	dp.update(25)
-	time.sleep( 2 )	
-	dp.update(50)
-	time.sleep( 2 )	
-	bash_command('tar -xvf /storage/.kodi/tnds82/picons.tar picons -C /storage/picons/')
-	dp.update(75)
-	time.sleep( 2 )
-	bash_command('mv /storage/picons/picons/ /storage/picons/tvh/')
-	dp.update(100)
-	dp.close()
+def url_upsrp():
+	xbmcgui.Dialog().ok(addonname, "Under development", "", "")
+
+def url_upsnp():
+	xbmcgui.Dialog().ok(addonname, "Under development", "", "")
 	
-
-def picons(url):
-	piconsDir = os.path.join('/storage/picons/')
-	packageFile = os.path.join('/storage/.kodi/tnds82', 'picons.tar.xz')
-	header = 'Picons for Tvheadend'
-	dp = xbmcgui.DialogProgress()
-	if not os.path.exists(piconsDir):
-		os.makedirs(piconsDir)
-	if not os.path.exists(tempfile):
-		os.makedirs(tempfile)
-	downloader(url,packageFile,header)
-	extract(dp, header)
-	shutil.rmtree(tempfile)
-
-
-def url_picons():
-	url = "http://www.mycvh.de/libreelec/picons/picons.tar.xz"
-	picons(url)
-
 try:
 	args = ' '.join(sys.argv[1:])
 except:
 	args = ""
 
-if args == 'picons':
-	url_picons()
+if args == 'srp':
+	if os.path.exists(logsrp):
+		xbmcgui.Dialog().ok(addonname, "The Download of Picons with Frequency as name is finished.", " If you want go to the tab update,", "to check if exist any update")
+	else:
+		url_srp()
+elif args == 'snp':
+	if os.path.exists(logsnp):
+		xbmcgui.Dialog().ok(addonname, "The Download of Picons with Channel as name is finished.", " If you want go to the tab update,", "to check if exist any update")
+	else:
+		url_snp()
+elif args == 'upsrp':
+	url_upsrp()
+elif args == 'upsnp':
+		url_upsnp()
 else:
-	xbmc.executebuiltin('Addon.OpenSettings(script.tnds.tvhpicons)')		
+	if addon.getSetting('urldown') == 'true':
+		if os.path.exists(log3rdparty):
+			thirdpart = dialog.yesno(addonname, "The picons have already been downloaded", "Settings: Open addon Settings","Download again picons","Settings", "Download")
+			if thirdpart == 0:
+				xbmc.executebuiltin('Addon.OpenSettings(script.picons)')
+			if thirdpart == 1:
+				url_external()
+		else:
+			url_external()
+	else:
+		xbmc.executebuiltin('Addon.OpenSettings(script.picons)')
+
