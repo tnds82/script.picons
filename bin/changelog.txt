@@ -1,0 +1,10 @@
+Version 1.0.2
+- Initial update support
+- Support zstandard, tar.xz, tar.gz, zip
+- Add 3rd party
+
+Version 1.0.1
+- Add support tar.xz
+
+Version 1.0.0
+- First addon release
