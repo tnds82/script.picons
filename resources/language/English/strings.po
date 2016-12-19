@@ -1,8 +1,8 @@
 # Kodi Media Center language file
-# Addon Name: Download Picons to Tvheadend by Tnds
-# Addon id: script.tnds.tvhpicons
-# Addon version: 1.0.0
-# Addon Provider: tnds82
+# Addon Name: Picons Downloader
+# Addon id: script.picons
+# Addon version: 8.1.100
+# Addon Provider: libreelec.tv
 msgid ""
 msgstr ""
 "Project-Id-Version: XBMC-Addons\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 msgctxt "Addon Summary"
-msgid "Download Picons to TvHeadend"
+msgid "Download Picons"
 msgstr ""
 
 msgctxt "Addon Description"
-msgid "Addon Description: Use this addon to download Picons to TvHeadend 4.2"
+msgid "Download Picons"
 msgstr ""
 
 msgctxt "#1000"
@@ -30,9 +30,85 @@ msgid "Picons"
 msgstr ""
 
 msgctxt "#1001"
-msgid "Picons for Tvheadend"
+msgid "Picons Downloader"
 msgstr ""
 
 msgctxt "#1002"
-msgid "Download Picons"
+msgid "[COLOR grey]Service Reference Picons (SRP)[/COLOR]"
+msgstr ""
+
+msgctxt "#1002"
+msgid "[COLOR grey]Service Reference Picons (SRP)[/COLOR]"
+msgstr ""
+
+msgctxt "#1003"
+msgid "Download Picons with Frequency as name"
+msgstr ""
+
+msgctxt "#1004"
+msgid "[COLOR grey]Service Name Picons (SNP)[/COLOR]"
+msgstr ""
+
+msgctxt "#1005"
+msgid "Download Picons with Channel as name"
+msgstr ""
+
+msgctxt "#1006"
+msgid "Do you want download from external URL?"
+msgstr ""
+
+msgctxt "#1007"
+msgid "Choose extension file"
+msgstr ""
+
+msgctxt "#1008"
+msgid "zip"
+msgstr ""
+
+msgctxt "#1009"
+msgid "tar.gz"
+msgstr ""
+
+msgctxt "#1010"
+msgid "tar.xz"
+msgstr ""
+
+msgctxt "#1011"
+msgid "tar.zst"
+msgstr ""
+
+msgctxt "#1012"
+msgid "Click to enter external URL"
+msgstr ""
+
+msgctxt "#1013"
+msgid "Choose the destination the picons"
+msgstr ""
+
+msgctxt "#1014"
+msgid "Update Picons"
+msgstr ""
+
+msgctxt "#1015"
+msgid "Update Picons"
+msgstr ""
+
+msgctxt "#1016"
+msgid "Do you want enable update?"
+msgstr ""
+
+msgctxt "#1017"
+msgid "3rd Party Picons"
+msgstr ""
+
+msgctxt "#1018"
+msgid "Download Picons from the 3rd Party"
+msgstr ""
+
+msgctxt "#1019"
+msgid "Check and Update Picons with Frequency as name"
+msgstr ""
+
+msgctxt "#1020"
+msgid "Check and Update Picons with Channel as name"
 msgstr ""
